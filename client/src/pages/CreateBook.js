@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react'
 import { useHttp } from '../hooks/http.hook'
 import { AuthContext } from '../context/AuthContext'
-import {useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export const CreateBook = () => {
   const navigate = useNavigate()
@@ -10,20 +10,16 @@ export const CreateBook = () => {
   const [book, setBook] = useState({title:'', author:'', genre:'', ageRating:''})
 
   const pressHandler = async event => {
-    if (event.key === 'Enter') {
-      console.log(book)
-      try {
-        const data = await request('/api/lib/create', 'POST', { reqBook: book }, {
-          Authorization: `Bearer ${auth.token}`
-        })
-        navigate(`/BookPage/${data.book._id}`)
-      } catch (e) {}
-    }
+    try {
+      const data = await request('/api/lib/create', 'POST', { reqBook: book }, {
+        Authorization: `Bearer ${auth.token}`
+      })
+      navigate(`/BookPage/${data.book._id}`)
+    } catch (e) {}
   }
 
   const onChange = (e) => 
     setBook({...book, [e.target.id]: e.target.value})
-  
 
   return (
     <div className="row">
@@ -54,15 +50,12 @@ export const CreateBook = () => {
 
             <div className="row">
               <div className="input-field col s6">
-                <input id="ageRating" value={book.ageRating} onChange={onChange} type="text" className="validate"                   
-                onKeyPress={pressHandler}/>
+                <input id="ageRating" value={book.ageRating} onChange={onChange} type="text" className="validate"/>
                 <label htmlFor="ageRating">Age rating</label>
               </div>
             </div>
 
-            
-
-            
+            <a className="waves-effect waves-light btn-large" onClick={pressHandler}>Button</a>
           </form>
         </div>
       </div>

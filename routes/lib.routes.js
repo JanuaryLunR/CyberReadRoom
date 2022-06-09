@@ -31,6 +31,19 @@ router.post('/create', auth, async (req, res) => {
   }
 })
 
+
+router.get('/a', async (req, res) => {
+  try {
+    const abooks = await Book.find()
+    res.json(abooks)
+  
+  } catch (e) {
+    res.status(500).json({ message: '/a Request broke =('})
+  }
+})
+
+
+// User Lib
 router.get('/', auth, async (req, res) => {
   try {
     const books = await Book.find({ owner: req.user.userId })
@@ -40,6 +53,7 @@ router.get('/', auth, async (req, res) => {
   }
 })
 
+
 router.get('/:id', async (req, res) => {
   try {
     const book = await Book.findById(req.params.id)
@@ -48,5 +62,40 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова ыфвфывф' })
   }
 })
+
+// router put или patch
+router.put('/update', auth, async (req, res) => {
+  console.log(req.body)
+  try {
+    const {reqBook} = req.body
+    const book = await Book.updateOne(
+      {_id : reqBook._id},
+      {$set: 
+        {"ageRating": reqBook.ageRating,
+         "title": reqBook.title,
+         "author": reqBook.author,
+         "genre": reqBook.genre,
+        }}
+    )
+    res.status(201).json({ book })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' })
+  }
+})
+
+
+ router.delete('/delete', auth, async (req, res) => {
+   try {
+    const {reqBook} = req.body
+    const book = await Book.deleteOne({_id : reqBook._id})
+    res.send(book)
+    // res.status(200).json({ message: 'Resource deleted successfully'})
+    console.log(reqBook)
+   } catch (error) {
+     return res.status(500).json({ message: 'Something goes wrong (Delete)'})
+   }
+ })
+
 
 module.exports = router
