@@ -75,6 +75,7 @@ router.put('/update', auth, async (req, res) => {
          "title": reqBook.title,
          "author": reqBook.author,
          "genre": reqBook.genre,
+         "text": reqBook.text
         }}
     )
     res.status(201).json({ book })

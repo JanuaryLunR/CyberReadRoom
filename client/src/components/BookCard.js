@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 export const BookCard = ({book}) => {
   const {token} = useContext(AuthContext)
   const {request} = useHttp()
-  const [newbook, setBook] = useState({title:'', author:'', genre:'', ageRating:''})
+  const [newbook, setBook] = useState({title:'', author:'', genre:'', ageRating:'', text: ''})
   const navigate = useNavigate()
 
   const editButton = async event => {
@@ -22,6 +22,13 @@ export const BookCard = ({book}) => {
       const ddata = await request(`/api/lib/delete`, 'DELETE', { reqBook: book }, {
         Authorization: `Bearer ${token}`})
         navigate(`/LibPage`)
+    } catch (e) {}
+  }
+
+  const readButton = async event => {
+    try {
+      navigate(`/Read/${book._id}`)
+      
     } catch (e) {}
   }
 
@@ -45,8 +52,19 @@ export const BookCard = ({book}) => {
      <input id="ageRating"  onChange={onChange} type="text" className="validate"/>
                 <label htmlFor="ageRating">Age rating</label>
 
+      <div className="row">
+        <form className="col s12">
+          <div className="row">
+            <div className="input-field col s12">
+              <textarea id="text" onChange={onChange} className="materialize-textarea"></textarea>
+              <label htmlFor="textarea1">Textarea</label>
+            </div>
+          </div>
+        </form>
+      </div>
       <a className="waves-effect waves-light btn-large" onClick={editButton}>Button</a>
       <a className="waves-effect waves-light btn-large" onClick={deleteButton}>Delete</a>
+      <a className="waves-effect waves-light btn-large" onClick={readButton}>Read</a>
     </>
   )
 }

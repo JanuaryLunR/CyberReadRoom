@@ -7,7 +7,7 @@ export const CreateBook = () => {
   const navigate = useNavigate()
   const auth = useContext(AuthContext)
   const {request} = useHttp()
-  const [book, setBook] = useState({title:'', author:'', genre:'', ageRating:''})
+  const [book, setBook] = useState({title:'', author:'', genre:'', ageRating:'', text:''})
 
   const pressHandler = async event => {
     try {
@@ -31,9 +31,7 @@ export const CreateBook = () => {
               <div className="input-field col s6">
                 <input id="title" value={book.title} onChange={onChange} type="text" className="validate"/>
                 <label htmlFor="title">Title of book: </label>
-              </div>
-
-              
+              </div>            
 
               <div className="input-field col s6">
                 <input id="author" value={book.author} onChange={onChange} type="text" className="validate" />
@@ -46,6 +44,7 @@ export const CreateBook = () => {
                 <input id="genre" value={book.genre} onChange={onChange} type="text" className="validate" />
                 <label htmlFor="genre">Genre of book</label>
               </div>
+
             </div>
 
             <div className="row">

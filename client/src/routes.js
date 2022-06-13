@@ -5,6 +5,7 @@ import {MainLibPage} from './pages/MainLibPage'
 import {BookPage} from './pages/BookPage'
 import {AuthPage} from './pages/AuthPage'
 import {CreateBook} from './pages/CreateBook'
+import { Read } from './pages/Read'
 
 export const useRoutes = isAuthenticated => {
   if (isAuthenticated) {
@@ -14,6 +15,7 @@ export const useRoutes = isAuthenticated => {
         <Route path="/MainLibPage" element={<MainLibPage />} exact />
         <Route path="/BookPage/:id" element={<BookPage />}/>  
         <Route path="/CreateBook" element={<CreateBook />} />
+        <Route path="/Read/:id" element={<Read />}/> 
         <Route path="/auth" element={<Navigate replace to="/MainLibPage" />} />    
         <Route path="/" element={<Navigate replace to="/MainLibPage" />} />
       </Routes>

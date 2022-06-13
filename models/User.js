@@ -5,7 +5,6 @@ const schema = new Schema({
   password: {type: String, required: true},
   library: [{ type: Types.ObjectId, ref: 'Library' }],
   role: {type: String},
-  emailLogin: {type: String}
 },
   {versionKey: false, timestamps: true})
 
