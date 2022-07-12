@@ -15,7 +15,7 @@ app.use('/api/auth', require('./routes/auth.routes'))
 
 async function start () {
   try{
-    await mongoose.connect('mongodb://localhost/CyberReadeRoom', {
+    await mongoose.connect('mongodb://127.0.0.1/CyberReadeRoom', {
       
     })
     app.listen(5000, () => console.log('App has been started.'))

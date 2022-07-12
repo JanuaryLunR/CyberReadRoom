@@ -4,7 +4,7 @@ import { AuthContext } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 
 export const BookCard = ({book}) => {
-  const {token} = useContext(AuthContext)
+  const {token, userId} = useContext(AuthContext)
   const {request} = useHttp()
   const [newbook, setBook] = useState({title:'', author:'', genre:'', ageRating:'', text: ''})
   const navigate = useNavigate()
@@ -18,10 +18,16 @@ export const BookCard = ({book}) => {
 
   const deleteButton = async event => {
     try { 
-      console.log(book)
-      const ddata = await request(`/api/lib/delete`, 'DELETE', { reqBook: book }, {
+
+      if (userId=== book.owner) {
+        const ddata = await request(`/api/lib/delete`, 'DELETE', { reqBook: book }, {
         Authorization: `Bearer ${token}`})
         navigate(`/LibPage`)
+      } else {
+        console.log(`Error! You can not delete not your book`)
+        navigate(`/LibPage`)
+      }
+
     } catch (e) {}
   }
 
