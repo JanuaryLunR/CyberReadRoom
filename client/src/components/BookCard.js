@@ -2,12 +2,14 @@ import React, {useContext, useState} from 'react'
 import { useHttp } from '../hooks/http.hook'
 import { AuthContext } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
+import Accordion from '../components/Accordion'
 
 export const BookCard = ({book}) => {
   const {token, userId} = useContext(AuthContext)
   const {request} = useHttp()
   const [newbook, setBook] = useState({title:'', author:'', genre:'', ageRating:'', text: ''})
   const navigate = useNavigate()
+  const [count, setCount] = useState(0);
 
   const editButton = async event => {
     try {
@@ -15,6 +17,16 @@ export const BookCard = ({book}) => {
       Authorization: `Bearer ${token}`})     
     } catch (e) {}
   }
+
+  /* unrealized idea for hide/display elements
+  function isOwner () {
+    if (userId === book.owner) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  } */
 
   const deleteButton = async event => {
     try { 
@@ -45,32 +57,41 @@ export const BookCard = ({book}) => {
   return (
     <>
      <h1>Title: {book.title}</h1>
-     <input id="title" onChange={onChange} type="text" className="validate"/>
-                <label htmlFor="title">Title of book: </label> 
+     { userId=== book.owner && <input id="title" onChange={onChange} type="text" className="validate"/> }
+     { userId=== book.owner &&           <label htmlFor="title">Title of book: </label> }
      <h2>Author: {book.author}</h2>
-     <input id="author" onChange={onChange} type="text" className="validate" />
-                <label htmlFor="author">Author name</label>
+     { userId=== book.owner && <input id="author" onChange={onChange} type="text" className="validate" /> }
+     { userId=== book.owner &&            <label htmlFor="author">Author name</label> }
      <h2>Genre: {book.genre}</h2>
-     <input id="genre" onChange={onChange} type="text" className="validate" />
-                <label htmlFor="genre">Genre of book</label>
+     { userId=== book.owner && <input id="genre" onChange={onChange} type="text" className="validate" /> }
+     { userId=== book.owner &&            <label htmlFor="genre">Genre of book</label> }
      <h2>Rating: {book.rating}</h2>
      <h2>Age: {book.ageRating}</h2>
-     <input id="ageRating"  onChange={onChange} type="text" className="validate"/>
-                <label htmlFor="ageRating">Age rating</label>
+     { userId=== book.owner && <input id="ageRating"  onChange={onChange} type="text" className="validate"/> }
+     { userId=== book.owner &&            <label htmlFor="ageRating">Age rating</label> }
 
-      <div className="row">
-        <form className="col s12">
-          <div className="row">
-            <div className="input-field col s12">
-              <textarea id="text" onChange={onChange} className="materialize-textarea"></textarea>
-              <label htmlFor="textarea1">Textarea</label>
-            </div>
-          </div>
-        </form>
+     <Accordion 
+        title={"Chapter" + count}
+        //{setCount(count +1)}
+        content={`<form className="col s12">
+                  <div className="row">
+                    <div className="input-field col s12">
+                      <textarea id="text" onChange={onChange} className="materialize-textarea"></textarea>
+                      <label htmlFor="textarea1">Textarea</label>
+                    </div>
+                  </div>
+                </form>`}
+     />
+     <Accordion 
+        title="StasSAO"
+        content="SecretKFCBullshit"
+     />
+
+     <div className='row'>
+      { userId=== book.owner && <a className="waves-effect waves-light btn-large col s4" onClick={editButton}>Change</a> }
+      { userId=== book.owner && <a className="waves-effect waves-light btn-large col s4" onClick={deleteButton}>Delete</a> }
+      <a className="waves-effect waves-light btn-large col s4" onClick={readButton}>Read</a>
       </div>
-      <a className="waves-effect waves-light btn-large" onClick={editButton}>Button</a>
-      <a className="waves-effect waves-light btn-large" onClick={deleteButton}>Delete</a>
-      <a className="waves-effect waves-light btn-large" onClick={readButton}>Read</a>
     </>
   )
 }
