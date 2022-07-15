@@ -8,7 +8,12 @@ const schema = new Schema({
   rating: {type: Number, default: 0},
   ageRating: {type: String},
   owner: {type: Types.ObjectId, ref: 'User'},
-  text: {type: String}
+  text: { type: Object}
+  /*  chapterNumber: {type: Number},
+    name: {type: String},
+    content: {type: String
+  */
+  //text: {type: String}
 }, 
   {versionKey: false, timestamps: true})
 

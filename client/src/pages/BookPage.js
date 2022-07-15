@@ -32,7 +32,7 @@ export const BookPage = () => {
 
   return (
     <>
-      { !loading && book && <BookCard book={book} />}
+      { !loading && book && <BookCard getBook={book} />}
     </>
   )
 }

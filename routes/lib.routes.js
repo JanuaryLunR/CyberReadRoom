@@ -36,7 +36,7 @@ router.get('/a', async (req, res) => {
   try {
     const abooks = await Book.find()
     res.json(abooks)
-  
+    //   
   } catch (e) {
     res.status(500).json({ message: '/a Request broke =('})
   }
@@ -44,6 +44,7 @@ router.get('/a', async (req, res) => {
 
 
 // User Lib
+// userlib/:userid
 router.get('/', auth, async (req, res) => {
   try {
     const books = await Book.find({ owner: req.user.userId })
@@ -64,11 +65,12 @@ router.get('/:id', async (req, res) => {
 })
 
 // router put или patch
-router.put('/update', auth, async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
   console.log(req.body)
+  console.log("lib.routes 69")
   try {
     const {reqBook} = req.body
-    const book = await Book.updateOne(
+    const book = await Book.findOneAndUpdate(
       {_id : reqBook._id},
       {$set: 
         {"ageRating": reqBook.ageRating,
@@ -86,6 +88,7 @@ router.put('/update', auth, async (req, res) => {
 })
 
 
+//:id
  router.delete('/delete', auth, async (req, res) => {
    try {
     const {reqBook} = req.body

@@ -4,11 +4,11 @@ const mongoose = require('mongoose')
 //import
 
 const app = express()
-
+const libr =  require('./routes/lib.routes')
 app.use(express.json({ extended: true}))
 
-
-app.use('/api/lib', require('./routes/lib.routes'))
+// Пересмотреть название переменных
+app.use('/api/lib', libr)
 
 //Authorization
 app.use('/api/auth', require('./routes/auth.routes'))

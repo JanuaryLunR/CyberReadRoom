@@ -25,7 +25,7 @@ export const Read = () => {
 
   return (
     <>
-      { !loading && book && <h1>{book.text}</h1>}
+      { !loading && book && <h1>{book.text[1].content}</h1>}
     </>
   )
 }
