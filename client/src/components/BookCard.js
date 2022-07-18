@@ -9,7 +9,20 @@ export const BookCard = ({getBook}) => {
   const {request} = useHttp()
   const [book, setBook] = useState(getBook)
   const [chapter, setChapter] = useState(1)
+  // From object to array!!!!!!
   const navigate = useNavigate()
+
+  //Pagination v
+  const Pagin = () => {
+    return <li className="waves-effect" onClick={onPaginationClick}><a href="#!">2</a></li>;
+  }
+
+  const [pagList, setPagList] = useState([]);
+
+  const onAddChpClick = async event => {
+    setPagList(pagList.concat(<Pagin key={pagList.length} />));
+  };
+  //Pagination ^
 
   const editButton = async event => {
     try {
@@ -44,15 +57,22 @@ export const BookCard = ({getBook}) => {
 
   const onChange = (e) => {
     if ([e.target.id] == "text") {
-      setBook({...book, text: { ...book.text, [chapter]: { ...book.text[chapter], content : e.target.value } }})
+      setBook({...book, text: { ...book.text, [chapter-1]: { ...book.text[chapter-1], content : e.target.value } }})
     } else {
       setBook({...book, [e.target.id]: e.target.value})
     }
   }
 
-  // Chapter
-  const onAddChpClick = async event => {
-
+  // Pagination
+  const onPaginationClick = (e) => {
+    let elem = document.getElementsByClassName("active");
+    elem[0].classList.remove("active")
+    elem.className = "waves-effect"
+    e.target.parentElement.className = "active"
+    let active = e.target.textContent;
+    setChapter(active)
+    let textInput = document.getElementById("text")
+    textInput.value = book.text[chapter-1].content    
   }
 
 
@@ -75,23 +95,24 @@ export const BookCard = ({getBook}) => {
      <form className="col s12">
        <div className="row">
          <div className="input-field col s12">
-           <textarea id="text" onChange={onChange} className="materialize-textarea" value={book.text.content}></textarea>
-           <label htmlFor="textarea1">Textarea</label>
+           <textarea id="text" onChange={onChange} className="materialize-textarea" defaultValue={book.text[chapter-1].content}></textarea>
          </div>
        </div>
      </form>
 
     {/* chapter */}
      <ul className="pagination">
-       <li className="active"><a href="#!">1</a></li>
-       <li className="waves-effect"><a href="#!">2</a></li>
+       <li className="active" onClick={onPaginationClick}><a href="#!">1</a></li>
+       {pagList}
+       {/* <li className="waves-effect" onClick={onPaginationClick}><a href="#!">2</a></li> */}
+       {/* Here's you will add new page button, also it must check if last page have content? */}
        <li className="waves-effect"><a href="#!" onClick={onAddChpClick} className='waves-effect waves-light green'>+</a></li>
      </ul>
 
-     <div className='row'>
-      { userId=== book.owner && <a className="waves-effect waves-light btn-large col s4" onClick={editButton}>Change</a> }
-      { userId=== book.owner && <a className="waves-effect waves-light btn-large col s4" onClick={deleteButton}>Delete</a> }
-      <a className="waves-effect waves-light btn-large col s4" onClick={readButton}>Read</a>
+      <div className='row'>
+        { userId=== book.owner && <a className="waves-effect waves-light btn-large col s4" onClick={editButton}>Change</a> }
+        { userId=== book.owner && <a className="waves-effect waves-light btn-large col s4" onClick={deleteButton}>Delete</a> }
+        <a className="waves-effect waves-light btn-large col s4" onClick={readButton}>Read</a>
       </div>
     </>
   )

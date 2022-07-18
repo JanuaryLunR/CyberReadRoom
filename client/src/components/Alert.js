@@ -25,3 +25,6 @@ export const Alert = (props) => {
     <div>Alert</div>
   )
 }
+
+{/*         "text[0].name": 1,
+         "text[0].content": reqBook.text */}

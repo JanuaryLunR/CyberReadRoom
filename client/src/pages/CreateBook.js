@@ -7,28 +7,7 @@ export const CreateBook = () => {
   const navigate = useNavigate()
   const auth = useContext(AuthContext)
   const {request} = useHttp()
-  const [book, setBook] = useState({title:'', author:'', genre:'', ageRating:'', text:''})
-// Upload book?
-  const [uploadedFile, setUploadedFile] = useState ('');
-  const [fileTitle, setFileTitle] = useState ('');
-
-  function handleFormSubmittion (e) {
-    e.preventDefault ();
-
-    let form = document.getElementById ('form');
-    let formData = new FormData (form);
-
-    // do something
-    console.log("Form submitted")
-  }
-
-  function handleFileTitle (e) {
-    setFileTitle (e.target.value);
-  }
-
-  function handleUploadedFile (e) {
-    setUploadedFile (e.target.value);
-  }
+  const [book, setBook] = useState({title:'', author:'', genre:'', ageRating:'', text:[{name:'', content:''}] })
 
   const pressHandler = async event => {
     try {
@@ -73,35 +52,6 @@ export const CreateBook = () => {
                 <label htmlFor="ageRating">Age rating</label>
               </div>
             </div>
-
-            <div className="row">
-            <form
-              encType="multipart/form-data"
-              onSubmit={handleFormSubmittion}
-              id="form"
-            >
-              <input
-                type="file"
-                name="uploadedFile"
-                value={uploadedFile}
-                onChange={handleUploadedFile}
-                required
-              />
-              <br />
-              <br />
-
-              <label>File title:</label><br />
-              <input
-                type="text"
-                placeholder="Enter file title"
-                name="fileTitle"
-                value={fileTitle}
-                onChange={handleFileTitle}
-                required
-              />
-            </form>
-            </div>
-
             <a className="waves-effect waves-light btn-large" onClick={pressHandler}>Button</a>
           </form>
         </div>
