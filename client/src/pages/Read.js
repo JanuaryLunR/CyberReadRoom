@@ -35,6 +35,15 @@ export const Read = (props) => {
     textInput.value = book.text[chapter-1].content    
   }
 
+  // buttons < and >
+  const onPreviousClick = () => {
+
+  }
+
+  const onNextClick = () => {
+
+  }
+
   return (
     <>
       { !loading && book && 

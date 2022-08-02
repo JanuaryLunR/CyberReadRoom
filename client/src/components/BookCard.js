@@ -9,18 +9,24 @@ export const BookCard = ({getBook}) => {
   const {request} = useHttp()
   const [book, setBook] = useState(getBook)
   const [chapter, setChapter] = useState(1)
-  // From object to array!!!!!!
   const navigate = useNavigate()
+
+  let count = 1;
+  
+  // From object to array!!!!!! for knowing how many Pagin elements I need render
+  /* let chapterNumber = Object.keys(book.text).length
+  Object.keys(book.text).length */
 
   //Pagination v
   const Pagin = () => {
-    return <li className="waves-effect" onClick={onPaginationClick}><a href="#!">2</a></li>;
+    return <li className="waves-effect" onClick={onPaginationClick}><a href="#!">{count}</a></li>;
   }
 
   const [pagList, setPagList] = useState([]);
 
   const onAddChpClick = async event => {
-    setPagList(pagList.concat(<Pagin key={pagList.length} />));
+    count++;
+    setPagList(pagList.concat(<Pagin innerHTML={count} key={pagList.length} />));
   };
   //Pagination ^
 
@@ -57,6 +63,7 @@ export const BookCard = ({getBook}) => {
 
   const onChange = (e) => {
     if ([e.target.id] == "text") {
+      console.log(chapter)
       setBook({...book, text: { ...book.text, [chapter-1]: { ...book.text[chapter-1], content : e.target.value } }})
     } else {
       setBook({...book, [e.target.id]: e.target.value})
